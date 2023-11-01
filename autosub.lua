@@ -3,7 +3,9 @@
 --=============================================================================
 --          This script uses Subliminal to download subtitles,
 --          so make sure to specify your system's Subliminal location below:
-local subliminal = '/home/david/.local/bin/subliminal'
+-- local subliminal = '/home/david/.local/bin/subliminal'
+-- XXX: home = os.getenv('HOME')
+local subliminal = 'subliminal' -- at the PATH
 --=============================================================================
 -->>    SUBTITLE LANGUAGE:
 --=============================================================================
@@ -15,14 +17,14 @@ local languages = {
 --          other languages will NOT be downloaded,
 --          so put your preferred language first:
             { 'English', 'en', 'eng' },
-            { 'Dutch', 'nl', 'dut' },
+            { 'Russian', 'ru', 'rus' },
+--          { 'Dutch', 'nl', 'dut' },
 --          { 'Spanish', 'es', 'spa' },
 --          { 'French', 'fr', 'fre' },
 --          { 'German', 'de', 'ger' },
 --          { 'Italian', 'it', 'ita' },
 --          { 'Portuguese', 'pt', 'por' },
 --          { 'Polish', 'pl', 'pol' },
---          { 'Russian', 'ru', 'rus' },
 --          { 'Chinese', 'zh', 'chi' },
 --          { 'Arabic', 'ar', 'ara' },
 }
@@ -43,9 +45,9 @@ local logins = {
 -->>    ADDITIONAL OPTIONS:
 --=============================================================================
 local bools = {
-    auto = true,   -- Automatically download subtitles, no hotkeys required
+    auto = false,   -- Automatically download subtitles, no hotkeys required
     debug = false, -- Use `--debug` in subliminal command for debug output
-    force = true,  -- Force download; will overwrite existing subtitle files
+    force = false,  -- Force download; will overwrite existing subtitle files
     utf8 = true,   -- Save all subtitle files as UTF-8
 }
 local excludes = {
@@ -54,6 +56,8 @@ local excludes = {
     -- Full paths are also allowed, e.g.:
     -- '/home/david/Videos',
     'no-subs-dl',
+    'encode',
+    'm',
 }
 local includes = {
     -- If anything is defined here, only the movies with a path
@@ -72,7 +76,7 @@ function download_subs(language)
         log('No Language found\n')
         return false
     end
-            
+
     log('Searching ' .. language[1] .. ' subtitles ...', 30)
 
     -- Build the `subliminal` command, starting with the executable:
